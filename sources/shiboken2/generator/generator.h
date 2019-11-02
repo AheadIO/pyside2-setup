@@ -89,7 +89,7 @@ QString getFilteredCppSignatureString(QString signature);
  * when we can. This might change again when the Clang problem is solved.
  */
 
-#ifdef Q_CC_MSVC
+#if defined(Q_CC_MSVC) || defined(__MINGW32__)
 const int alwaysGenerateDestructor = 1;
 #else
 const int alwaysGenerateDestructor = 0;

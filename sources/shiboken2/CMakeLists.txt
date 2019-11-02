@@ -137,7 +137,7 @@ endif()
 
 # Build with Address sanitizer enabled if requested.
 # This may break things, so use at your own risk.
-if (SANITIZE_ADDRESS AND NOT MSVC)
+if (SANITIZE_ADDRESS AND NOT WIN32)
     set_sanitize_address()
 endif()
 
