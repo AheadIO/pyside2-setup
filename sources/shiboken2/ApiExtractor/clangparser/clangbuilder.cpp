@@ -47,6 +47,16 @@
 #  define Q_FALLTHROUGH()  (void)0
 #endif
 
+#if defined(__MINGW32__)
+#include <QRegExp>
+namespace {
+bool isQtHeader(const char* cFileName) {
+    static const QRegExp re(QLatin1String(R"(.*[\\|/]include[\\|/](?:ActiveQt|Qt\w+)[\\|/].*)"));
+    return re.exactMatch(QLatin1String(cFileName));
+}
+}
+#endif
+
 namespace clang {
 
 static inline QString colonColon() { return QStringLiteral("::"); }
@@ -704,6 +714,9 @@ bool Builder::visitLocation(const CXSourceLocation &location) const
     if (const char *cFileName = clang_getCString(cxFileName)) {
         // Resolve OpenGL typedefs although the header is considered a system header.
         const bool visitHeader = compareHeaderName(cFileName, "gl.h")
+#if defined(__MINGW32__)
+                || isQtHeader(cFileName)
+#endif
 #if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
                 || cStringStartsWith("/usr/include/stdint.h", cFileName)
 #endif
