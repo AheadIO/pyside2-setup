@@ -61,7 +61,7 @@ if(MSVC)
     #set(CMAKE_CXX_FLAGS "/Zc:wchar_t /GR /EHsc /DNOCOLOR /DWIN32 /D_WINDOWS /D_SCL_SECURE_NO_WARNINGS") # XXX
 else()
     if(MINGW)
-        set(CMAKE_CXX_FLAGS "-DWIN32 -D_WINDOWS -D_SCL_SECURE_NO_WARNINGS -fpermissive -g")
+        set(CMAKE_CXX_FLAGS "-DWIN32 -D_WINDOWS -D_SCL_SECURE_NO_WARNINGS -fpermissive -Wno-deprecated-declarations")
     endif()
     if(CMAKE_HOST_UNIX AND NOT CYGWIN)
         add_definitions(-fPIC)
