@@ -92,6 +92,9 @@ macro(create_pyside_module)
 
     # Contains include directories to pass to shiboken's preprocessor.
     set(shiboken_include_dirs ${pyside2_SOURCE_DIR}${PATH_SEP}${QT_INCLUDE_DIR})
+    if(MINGW)
+        set(shiboken_include_dirs "C:/msys64/mingw64/lib/clang/9.0.0/include${PATH_SEP}${shiboken_include_dirs}")
+    endif()
     set(shiboken_framework_include_dirs_option "")
     if(CMAKE_HOST_APPLE)
         set(shiboken_framework_include_dirs "${QT_FRAMEWORK_INCLUDE_DIR}")
