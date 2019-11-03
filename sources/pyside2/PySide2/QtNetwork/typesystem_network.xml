@@ -40,6 +40,11 @@
 ****************************************************************************/
 -->
 <typesystem package="PySide2.QtNetwork">
+  <inject-code class="native" position="beginning">
+    #ifdef interface
+        #undef interface
+    #endif
+  </inject-code>
   <load-typesystem name="QtCore/typesystem_core.xml" generate="no"/>
 
     <enum-type name="QDtlsError" since="5.12"/>
