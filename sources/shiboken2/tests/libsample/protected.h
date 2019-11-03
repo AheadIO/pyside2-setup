@@ -144,7 +144,7 @@ protected:
     ObjectType* protectedObjectTypeProperty;
 };
 
-LIBSAMPLE_API inline ProtectedProperty* createProtectedProperty() {
+inline ProtectedProperty* createProtectedProperty() {
     return new ProtectedProperty;
 }
 
