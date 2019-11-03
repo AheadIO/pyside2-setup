@@ -41,15 +41,25 @@
 #define SHIBOKENMACROS_H
 
 // LIBSHIBOKEN_API macro is used for the public API symbols.
-#if defined _WIN32
+#if defined _WIN32 || defined __CYGWIN__
     #if LIBSHIBOKEN_EXPORTS
-        #define LIBSHIBOKEN_API __declspec(dllexport)
+        #ifdef __GNUC__
+            #define LIBSHIBOKEN_API __attribute__ ((dllexport))
+        #else
+            #define LIBSHIBOKEN_API __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+        #endif
     #else
-        #ifdef _MSC_VER
-            #define LIBSHIBOKEN_API __declspec(dllimport)
+        #ifdef __GNUC__
+            #define DLL_PUBLIC __attribute__ ((dllimport))
+        #else
+            #define DLL_PUBLIC __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
         #endif
     #endif
-    #define SBK_DEPRECATED(func) __declspec(deprecated) func
+    #ifdef __GNUC__
+        #define SBK_DEPRECATED(func) func __attribute__ ((deprecated))
+    #else
+        #define SBK_DEPRECATED(func) __declspec(deprecated) func
+    #endif
 #elif __GNUC__ >= 4
     #define LIBSHIBOKEN_API __attribute__ ((visibility("default")))
     #define SBK_DEPRECATED(func) func __attribute__ ((deprecated))
@@ -57,6 +67,9 @@
 
 #ifndef LIBSHIBOKEN_API
     #define LIBSHIBOKEN_API
+#endif
+
+#ifndef SBK_DEPRECATED
     #define SBK_DEPRECATED(func) func
 #endif
 
